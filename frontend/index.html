@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helo</title>
+  <title>My Drive</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" type="module" ></script>
    <link rel="icon" href="./public/favicon.ico" type="image/x-icon">
@@ -12,11 +12,13 @@
 <body>
   <h2>My Drive</h2>
   <div>
+    <form action=""></form>
     <fieldset>
-      <label for="inputField">Enter Text: </label>
-      <input type="text" id="inputField" placeholder="Enter a text">
+      <label for="inputField">File/Folder Name: </label>
+      <input type="text" id="inputField" placeholder="Enter the name">
     </fieldset>
     <fieldset>
+      <label for="inputFile"></label>
       <input type="file" id="inputFile">
       <button onclick="uploadFile()">Upload</button>
       <br><br>
@@ -24,7 +26,10 @@
       <span id="percentLabel">0%</span>
     </fieldset>
   </div>
-  <div id="folderDiv"></div>
+  <div id="folders">
+    <div id="folderPosition" ></div>
+    <div id="folderDiv"></div>
+  </div>
 
 </body>
 

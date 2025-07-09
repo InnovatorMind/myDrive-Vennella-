@@ -1,29 +1,29 @@
 import express from "express"
 import { readdir, rename, rm } from "fs/promises";
 import { createWriteStream } from "fs"
+import cors from "cors"
 
 const app = express();
 const PORT = 4000;
 
 app.use(express.json())
 
-app.use((req, res, next) => {
-    res.set({
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
-        "Access-Control-Allow-Headers": "*",
-    });
-    //   console.log(req.body);
-    next();
-});
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'PATCH', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.get('/', async (req, res) => {
     const folderData = await readdir("./storage", { withFileTypes: true });
-    res.json(folderData);
-})
+    const data = folderData.map((item) => {
+        return { fitem: item.name, isdirectory : item.isDirectory()}
+    })
+    res.json(data);
+});
 
 
-// Get(Access Files) Logic
+// Get Logic
 app.get('/:filename', (req, res) => {
     const { filename } = req.params;
     console.log(filename);
@@ -38,8 +38,9 @@ app.get('/:filename', (req, res) => {
     });
 });
 
-// Add file
+// Upload File 
 app.post('/:filename', (req, res) => {
+    // console.log(req.headers)
     const { filename } = req.params;
     console.log("--> ", filename);
     const writeStream = createWriteStream(`./storage/${filename}`);
@@ -50,7 +51,12 @@ app.post('/:filename', (req, res) => {
 // Rename logic
 app.patch('/:filename', async (req, res) => {
     const { filename } = req.params;
-    await rename(`./storage/${filename}`, `./storage/${req.body.newFileName}`); // PascalCase `newFilename`
+    // console.log("Filename: ", filename);
+    // console.log("newFileName: ", req.body.newFileName);
+    // console.log("extName: ", filename.split(".")[1]);
+    const fileExt = "hello.png".split(".")[1];
+    // console.log(req.body.newFileName);
+    await rename(`./storage/${filename}`, `./storage/${req.body.newFileName}.${filename.split(".")[1]}`); // PascalCase `newFilename`
     res.status(200).json({ message: "Renamed" });
 });
 

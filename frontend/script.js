@@ -11,23 +11,45 @@ try {
 }
 
 const folderDiv = document.getElementById("folderDiv");
+console.log(dirContents);
 dirContents.map((item, i) => {
-    folderDiv.innerHTML += `
-                <div key="${i}">
-                    <div>
-                  ${item.name} 
-                  <a href="${URL}${item.name}?action=open">Open</a>
-                  <a href="${URL}${item.name}?action=download">Download</a>
-                  </div>
-                  <div>
-                    <button onclick="renameFile('${item.name}')">Rename</button>
-                    <button onclick="saveFilename('${item.name}')">Save</button>
-                    <button onclick="handleDelete('${item.name}')">Delete</button>
-                  </ div>
-                  <br />
-                </div>
-                `
+    // console.log(item)
+   folderDiv.innerHTML += `
+  <div key="${i}" 
+       style="margin-bottom: 10px; cursor: pointer;" 
+       onclick="handleItemClick('${item.fitem}', ${item.isdirectory})">
+       
+    <div>
+      <img src="${item.isdirectory ? './public/open-folder.png' : './public/file.png'}" 
+           alt="${item.isdirectory ? 'Folder' : 'File'}" 
+           style="width: 20px; vertical-align: middle; margin-right: 5px;" />
+      ${item.fitem}
+    </div>
+    
+    ${
+      !item.isdirectory
+        ? `<div>
+            <button onclick="event.stopPropagation(); renameFile('${item.fitem}')">Rename</button>
+            <button onclick="event.stopPropagation(); saveFilename('${item.fitem}')">Save</button>
+            <button onclick="event.stopPropagation(); handleDelete('${item.fitem}')">Delete</button>
+          </div>`
+        : ''
+    }
+  </div>
+`;
+
 })
+window.handleItemClick = (name, isDirectory) => {
+  const action = isDirectory ? 'open' : 'open';
+  window.location.href = `${URL}${name}?action=${action}`;
+}
+window.saveFilename = (name, isDirectory) => {
+  const action = isDirectory ? 'open' : 'open';
+//   console.log(`${URL}${name}?action=download`)
+  window.location.href = `${URL}${name}?action=download`;
+}
+// window.saveFilename = function (item) { console.log(item); }
+
 
 const inputField = document.getElementById("inputField");
 window.renameFile = async function (oldFileName) {
@@ -43,7 +65,6 @@ window.renameFile = async function (oldFileName) {
     })
 }
 
-window.saveFilename = function (item) { console.log(item); }
 
 window.handleDelete = async function (filename) {
     await fetch(`${URL}${filename}`, {
@@ -52,7 +73,7 @@ window.handleDelete = async function (filename) {
             "Content-Type": "application/json"
         },
     })
-    console.log(item);
+    console.log(filename);
 }
 
 window.uploadFile = async function () {
@@ -66,7 +87,7 @@ window.uploadFile = async function () {
         const progressBar = document.getElementById("progressBar");
         const percentLabel = document.getElementById("percentLabel");
 
-        xhr.open("POST", `http://localhost:4000/${file.name}`);
+        xhr.open("POST", `${URL}${file.name}`);
         xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream");
 
         // Track upload progress
