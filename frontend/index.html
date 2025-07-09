@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helo</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" type="module" ></script>
+   <link rel="icon" href="./public/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <h2>My Drive</h2>
+  <div>
+    <fieldset>
+      <label for="inputField">Enter Text: </label>
+      <input type="text" id="inputField" placeholder="Enter a text">
+    </fieldset>
+    <fieldset>
+      <input type="file" id="inputFile">
+      <button onclick="uploadFile()">Upload</button>
+      <br><br>
+      <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+      <span id="percentLabel">0%</span>
+    </fieldset>
+  </div>
+  <div id="folderDiv"></div>
+
+</body>
+
+</html>
