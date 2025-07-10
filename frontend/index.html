@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Drive</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" type="module" ></script>
-   <link rel="icon" href="./public/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="./public/favicon.ico" type="image/x-icon">
+  <script src="script.js" type="module" defer></script>
 </head>
 
 <body>
-  <h2>My Drive</h2>
+  <h2>My Drive </h2>
   <div>
-    <form action=""></form>
     <fieldset>
       <label for="inputField">File/Folder Name: </label>
       <input type="text" id="inputField" placeholder="Enter the name">
@@ -20,7 +19,7 @@
     <fieldset>
       <label for="inputFile"></label>
       <input type="file" id="inputFile">
-      <button onclick="uploadFile()">Upload</button>
+      <button id="submitFile">Upload</button>
       <br><br>
       <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
       <span id="percentLabel">0%</span>
